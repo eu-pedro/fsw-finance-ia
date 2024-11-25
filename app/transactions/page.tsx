@@ -1,7 +1,9 @@
+import { Button } from "../_components/ui/button";
+
 export default function TransactionsPage() {
   return (
     <div>
-      <h1 className="p-5 text-red-50 flex w-screen">Olá mundo</h1>
+      <Button>Hello World</Button>
     </div>
   )
 }
