@@ -13,6 +13,7 @@ model Transaction {
   type          TransactionType
   amount        Decimal                  @db.Decimal(10, 2)
   paymentMethod TransactionPaymentMethod
+  date          DateTime
   createdAt     DateTime                 @default(now()) @map("created_at")
   updatedAt     DateTime                 @updatedAt @map("updated_at")
   userId        String                   @map("user_id")
