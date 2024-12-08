@@ -4,6 +4,7 @@ import { ArrowDownUpIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -38,8 +39,10 @@ import {
 } from "./ui/select";
 import {
   PAYMENT_METHOD_OPTIONS,
+  TRANSACTION_CATEGORY_OPTIONS,
   TRANSACTION_TYPE_OPTIONS,
 } from "../_constants/transactions";
+import { DatePickerDemo } from "./ui/date-picker";
 
 const createTransactionSchema = z.object({
   name: z.string().trim().min(1, {
@@ -77,10 +80,16 @@ export function AddTransactionButton() {
     },
   });
 
-  const onSubmit = () => {};
+  const onSubmit = (data: CreateTransactionType) => {
+    console.log(data);
+  };
 
   return (
-    <Dialog>
+    <Dialog
+      onOpenChange={(open) => {
+        if (!open) return form.reset();
+      }}
+    >
       <DialogTrigger asChild>
         <Button className="rounded-full font-bold">
           Adicionar Transação
@@ -130,20 +139,49 @@ export function AddTransactionButton() {
               name="type"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Tipo de transação</FormLabel>
+                  <FormLabel>Tipo </FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a verified email to display" />
+                        <SelectValue placeholder="Selecione o tipo de transação" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {TRANSACTION_TYPE_OPTIONS.map((option) => (
                         <SelectItem key={option.value} value={option.value}>
                           {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="category"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Categoria</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione a categoria" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {TRANSACTION_CATEGORY_OPTIONS.map((method) => (
+                        <SelectItem key={method.value} value={method.value}>
+                          {method.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -166,7 +204,7 @@ export function AddTransactionButton() {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a verified email to display" />
+                        <SelectValue placeholder="Selecione o método de pagamento" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -183,9 +221,27 @@ export function AddTransactionButton() {
               )}
             />
 
+            <FormField
+              control={form.control}
+              name="date"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Data</FormLabel>
+                  <DatePickerDemo
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                </FormItem>
+              )}
+            />
+
             <DialogFooter>
-              <Button variant="outline">Cancelar</Button>
-              <Button>Adicionar</Button>
+              <DialogClose asChild>
+                <Button type="button" variant="outline">
+                  Cancelar
+                </Button>
+              </DialogClose>
+              <Button type="submit">Adicionar</Button>
             </DialogFooter>
           </form>
         </Form>
