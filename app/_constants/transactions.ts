@@ -18,7 +18,7 @@ export const TRANSACTION_CATEGORY_LABELS = {
 
 export const TRANSACTION_PAYMENT_METHOD_LABELS = {
   BANK_TRANSFER: "Transferência Bancária",
-  BANK_SLIP: "BOleto Bancário",
+  BANK_SLIP: "Boleto Bancário",
   CASH: "Dinheiro",
   CREDIT_CARD: "Cartão de Crédito",
   DEBIT_CARD: "Cartão de Débito",
