@@ -19,23 +19,23 @@ interface UpsertTransactionProps {
   paymentMethod: TransactionPaymentMethod;
   date: Date;
 }
-export async function upsertTransaction(data: UpsertTransactionProps) {
-  upsertTransactionSchema.parse(data);
+export async function upsertTransaction(params: UpsertTransactionProps) {
+  upsertTransactionSchema.parse(params);
 
   const { userId } = auth();
 
   if (!userId) throw new Error("Unauthorized");
   await db.transaction.upsert({
-    where: {
-      id: data.id ?? "",
-    },
     update: {
-      ...data,
+      ...params,
       userId,
     },
     create: {
-      ...data,
+      ...params,
       userId,
+    },
+    where: {
+      id: params?.id ?? "",
     },
   });
 
