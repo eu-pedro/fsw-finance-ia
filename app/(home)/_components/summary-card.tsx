@@ -18,7 +18,7 @@ export function SummaryCard({
   title,
 }: SummaryCardProps) {
   return (
-    <Card className={`${size === "large" ? "bg-white bg-opacity-5" : ""} `}>
+    <Card>
       <CardHeader className="flex-row items-center gap-4">
         {icon}
         <p
