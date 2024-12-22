@@ -68,16 +68,6 @@ export async function getDashboard(month: string) {
     ),
   };
 
-  const grouped = await db.transaction.groupBy({
-    by: ["category"],
-    where: {
-      ...where,
-      type: TransactionType.EXPENSE,
-    },
-  });
-
-  console.log(grouped);
-
   const totalExpensePerCategory: TotalExpensePerCategory[] = (
     await db.transaction.groupBy({
       by: ["category"],
