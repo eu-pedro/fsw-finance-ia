@@ -56,7 +56,6 @@ export function TransactionsPieChart({
       fill: "#FFFFFF",
     },
   ];
-
   return (
     <Card className="flex flex-col p-12">
       <CardContent className="flex-1 pb-0">
