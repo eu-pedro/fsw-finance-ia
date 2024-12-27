@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader } from "../_components/ui/card";
 import { CheckIcon, XIcon } from "lucide-react";
 import { AcquirePlanButton } from "./_components/acquire-plan-button";
 import { Badge } from "../_components/ui/badge";
+import { getCurrentMonthTransactions } from "../_data/get-current-month-transactions";
 
 export default async function SubscriptionPage() {
   const { userId } = await auth();
@@ -12,6 +13,8 @@ export default async function SubscriptionPage() {
   if (!userId) redirect("/login");
 
   const user = await clerkClient().users.getUser(userId);
+
+  const currentMonthTransactions = await getCurrentMonthTransactions();
 
   const hasPremiumPlan = user?.publicMetadata?.subscriptionPlan === "premium";
 
@@ -37,7 +40,9 @@ export default async function SubscriptionPage() {
             <CardContent className="space-y-6 py-8">
               <div className="flex items-center gap-3">
                 <CheckIcon className="text-primary" />
-                <p>Apenas 10 transções por mês (7/10)</p>
+                <p>
+                  Apenas 10 transções por mês ({currentMonthTransactions}/10)
+                </p>
               </div>
 
               <div className="flex items-center gap-2">

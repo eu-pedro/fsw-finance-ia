@@ -9,6 +9,7 @@ interface SummaryCardProps {
   title: string;
   amount: number;
   size?: SizeProps;
+  userCanAddTransaction?: boolean;
 }
 
 export function SummaryCard({
@@ -37,7 +38,7 @@ export function SummaryCard({
           }).format(amount)}
         </p>
 
-        {size === "large" && <AddTransactionButton />}
+        {size === "large" && <AddTransactionButton userCanAddTransaction />}
       </CardContent>
     </Card>
   );

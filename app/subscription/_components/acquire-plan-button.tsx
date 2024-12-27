@@ -24,7 +24,6 @@ export function AcquirePlanButton() {
   }
 
   const hasPremiumPlan = user?.publicMetadata.subscriptionPlan === "premium";
-  console.log(user?.emailAddresses[0].emailAddress);
   if (hasPremiumPlan) {
     return (
       <Button className="w-full rounded-full font-bold" variant="link">
