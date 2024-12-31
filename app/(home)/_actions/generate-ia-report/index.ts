@@ -5,7 +5,7 @@ import OpenAI from "openai";
 import { generateAiReportSchema, GenerateAiReportSchema } from "./schema";
 
 const DUMMY_REPORT =
-  "Este recurso utiliza a tecnologia GPT para criar conteúdos personalizados e insights avançados diretamente no seu fluxo de trabalho. Para ativá-lo, é necessário: Recarregar Créditos: Recarregue sua conta na API do GPT. Ativar o Recurso: Configure o uso da sua chave da API GPT no painel de desenvolvedor.";
+  "Este recurso utiliza a tecnologia GPT para criar conteúdos personalizados e insights avançados diretamente no seu fluxo de trabalho. Para ativá-lo, é necessário: \n\n Recarregar Créditos: Recarregue sua conta na API do GPT. \n\nAtivar o Recurso: Configure o uso da sua chave da API GPT no painel de desenvolvedor.";
 
 export async function generateAiReport({ month }: GenerateAiReportSchema) {
   generateAiReportSchema.parse({ month });
