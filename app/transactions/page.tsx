@@ -21,7 +21,6 @@ export default async function TransactionsPage() {
   });
 
   const userCanAddTransaction = await canUserAddTransaction();
-  console.log(userCanAddTransaction);
 
   return (
     <>

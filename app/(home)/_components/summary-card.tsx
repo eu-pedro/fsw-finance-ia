@@ -17,6 +17,7 @@ export function SummaryCard({
   icon,
   size = "small",
   title,
+  userCanAddTransaction,
 }: SummaryCardProps) {
   return (
     <Card>
@@ -38,7 +39,9 @@ export function SummaryCard({
           }).format(amount)}
         </p>
 
-        {size === "large" && <AddTransactionButton userCanAddTransaction />}
+        {size === "large" && (
+          <AddTransactionButton userCanAddTransaction={userCanAddTransaction} />
+        )}
       </CardContent>
     </Card>
   );
