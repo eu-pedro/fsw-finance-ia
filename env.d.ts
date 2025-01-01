@@ -6,5 +6,6 @@ declare namespace NodeJS {
     STRIPE_WEBHOOK_SECRET: string;
     NEXT_PUBLIC_STRIPE_COSTUMER_PORTAL_URL: string;
     OPENAI_API_KEY: string;
+    APP_URL: string;
   }
 }
