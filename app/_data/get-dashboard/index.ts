@@ -2,17 +2,20 @@ import { db } from "@/app/_lib/prisma";
 import { TransactionType } from "@prisma/client";
 import { TotalExpensePerCategory, TransactionPercentagePerType } from "./types";
 import { auth } from "@clerk/nextjs/server";
+import { calculatePercentage } from "./calculatePercentage";
 
 export async function getDashboard(month: string) {
   const { userId } = await auth();
 
   if (!userId) throw new Error("Unauthorized");
 
+  const currentYear = new Date().getFullYear();
+
   const where = {
     userId,
     date: {
-      gte: new Date(`2024-${month}-01`),
-      lt: new Date(`2024-${month}-31`),
+      gte: new Date(`${currentYear}-${month}-01`),
+      lt: new Date(`${currentYear}-${month}-31`),
     },
   };
 
@@ -63,14 +66,17 @@ export async function getDashboard(month: string) {
   );
 
   const typesPercentage: TransactionPercentagePerType = {
-    [TransactionType.DEPOSIT]: Math.round(
-      (Number(depositsTotal || 0) / Number(transactionsTotal)) * 100,
+    [TransactionType.DEPOSIT]: calculatePercentage(
+      Number(depositsTotal || 0),
+      Number(transactionsTotal),
     ),
-    [TransactionType.EXPENSE]: Math.round(
-      (Number(expensesTotal || 0) / Number(transactionsTotal)) * 100,
+    [TransactionType.EXPENSE]: calculatePercentage(
+      Number(expensesTotal),
+      Number(transactionsTotal),
     ),
-    [TransactionType.INVESTMENT]: Math.round(
-      (Number(investmentsTotal || 0) / Number(transactionsTotal)) * 100,
+    [TransactionType.INVESTMENT]: calculatePercentage(
+      Number(investmentsTotal),
+      Number(transactionsTotal),
     ),
   };
 
