@@ -6,6 +6,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { useMemo, useState, useEffect } from "react";
 
 import {
   Table,
@@ -15,6 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from "./table";
+import { Skeleton } from "./skeleton";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -25,9 +27,33 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const tableData = useMemo(
+    () => (isLoading ? Array(5).fill({}) : data),
+    [data, isLoading],
+  );
+
+  const tableColumns = useMemo(
+    () =>
+      isLoading
+        ? columns.map((column) => ({
+            ...column,
+            cell: () => <Skeleton className="h-16 w-full" />,
+          }))
+        : columns,
+    [columns, isLoading],
+  );
+
   const table = useReactTable({
-    data,
-    columns,
+    data: tableData,
+    columns: tableColumns,
     getCoreRowModel: getCoreRowModel(),
   });
 
@@ -53,19 +79,36 @@ export function DataTable<TData, TValue>({
           ))}
         </TableHeader>
         <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
+          {isLoading ? (
+            Array(5)
+              .fill(null)
+              .map((_, index) => (
+                <TableRow key={`skeleton-${index}`}>
+                  {columns.map((_, colIndex) => (
+                    <TableCell key={`skeleton-cell-${colIndex}`}>
+                      <Skeleton className="h-10 w-full" />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+          ) : table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => {
+              return (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              );
+            })
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
