@@ -19,7 +19,7 @@ export function DatePickerDemo({ onChange, value }: DatePickerProps) {
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          variant={"outline"}
+          variant="outline"
           className={cn(
             "w-full justify-start text-left font-normal",
             !value && "text-muted-foreground",
@@ -37,7 +37,7 @@ export function DatePickerDemo({ onChange, value }: DatePickerProps) {
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
+      <PopoverContent className="w-auto p-0" side="bottom" align="start">
         <Calendar
           mode="single"
           selected={value}

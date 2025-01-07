@@ -113,7 +113,10 @@ export function UpsertTransactionDialog({
       open={isOpen}
       onOpenChange={(open) => {
         setIsOpen(open);
-        if (!open) form.reset();
+        if (!open) {
+          form.reset();
+          form.clearErrors();
+        }
       }}
     >
       <DialogTrigger asChild></DialogTrigger>
